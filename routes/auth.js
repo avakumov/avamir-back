@@ -83,6 +83,7 @@ router.post('/login', async (req, res) => {
             message: SUCCESS_LOGIN_MESSAGE + user.name,
             token,
         })
+        console.log('login user: ', user.name)
     } catch (err) {
         console.log(err)
     }
