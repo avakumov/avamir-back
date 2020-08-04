@@ -132,6 +132,7 @@ router.post('/delete', async (req, res) => {
         deleteFile(deletedBook.coverPath)
     } catch (err) {
         console.log(err)
+        res.status(500)
     }
 })
 
@@ -146,6 +147,7 @@ router.get('/categories', async (req, res) => {
         })
     } catch (err) {
         console.log(err)
+        res.status(500)
     }
 })
 
@@ -153,7 +155,7 @@ router.post('/addCategory', async (req, res) => {
     try {
         const { error } = categoryBooksValidation(req.body)
         if (error)
-            return res.status(400).json({ error: error.details[0].message })
+            return res.status(422).json({ error: error.details[0].message })
 
         const isCategoryExist = await CategoryBooks.findOne({
             title: req.body.title,
@@ -172,6 +174,7 @@ router.post('/addCategory', async (req, res) => {
         res.json({ category: savedCategory })
     } catch (err) {
         console.log(err)
+        res.status(500)
     }
 })
 
@@ -185,6 +188,7 @@ router.post('/delete-category', async (req, res) => {
         res.json({ category: deletedCategory })
     } catch (err) {
         console.log(err)
+        res.status(500)
     }
 })
 

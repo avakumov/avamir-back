@@ -12,12 +12,14 @@ const {
     loginValidation,
 } = require('../middleware/validation')
 
+
+
+
 router.post('/register', async (req, res) => {
     try {
         const { error } = registerValidation(req.body)
-
         if (error)
-            return res.status(400).json({ error: error.details[0].message })
+            return res.status(422).json({ error: error.details[0].message })
 
         const isEmailExist = await User.findOne({ email: req.body.email })
 
@@ -40,8 +42,8 @@ router.post('/register', async (req, res) => {
             message: `Вы успешно зарегистрировались с именем ${savedUser.name}`,
             data: { userId: savedUser._id },
         })
-    } catch (error) {
-        res.status(400).json({ error })
+    } catch (err) {
+        res.status(500)
     }
 })
 
@@ -53,7 +55,7 @@ router.post('/login', async (req, res) => {
 
         // throw validation errors
         if (error)
-            return res.status(400).json({ error: error.details[0].message })
+            return res.status(422).json({ error: error.details[0].message })
 
         const user = await User.findOne({ email: req.body.email })
 
@@ -85,6 +87,7 @@ router.post('/login', async (req, res) => {
         })
         console.log('login user: ', user.name)
     } catch (err) {
+        res.status(500)
         console.log(err)
     }
 })

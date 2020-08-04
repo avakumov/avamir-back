@@ -2,18 +2,37 @@ const Joi = require('@hapi/joi')
 
 const registerValidation = (data) => {
     const schema = Joi.object({
-        name: Joi.string().min(4).max(255).required(),
-        email: Joi.string().min(6).max(255).required().email(),
-        password: Joi.string().min(6).max(1024).required(),
-    })
+        name: Joi.string().min(4).max(255).required().messages({
+            'string.empty': 'Имя пользователя не может быть пустым',
+            'string.min':
+                'Имя пользователя должно состоять минимум из 4 символов',
+        }),
 
+        email: Joi.string().min(6).max(255).required().email().messages({
+            'string.empty': 'Email обязателен для заполнения',
+            'string.min': 'Email должнен состоять минимум из 6 символов',
+        }),
+
+        password: Joi.string().min(6).max(1024).required().messages({
+            'string.empty': 'Пароль не может быть пустым',
+            'string.min': 'Пароль должен состоять минимум из 6 символов',
+        }),
+        passwordRepeat: Joi.ref('password'),
+    }).with('password', 'passwordRepeat')
+    console.log('SCHEMA: ', schema)
     return schema.validate(data)
 }
 
 const loginValidation = (data) => {
     const schema = Joi.object({
-        email: Joi.string().min(6).max(255).required().email(),
-        password: Joi.string().min(6).max(1024).required(),
+        email: Joi.string().min(6).max(255).required().email().messages({
+            'string.empty': 'Email обязателен для заполнения',
+            'string.min': 'Email должнен состоять минимум из 6 символов',
+        }),
+        password: Joi.string().min(6).max(1024).required().messages({
+            'string.empty': 'Пароль не может быть пустым',
+            'string.min': 'Пароль должен состоять минимум из 6 символов',
+        }),
     })
 
     return schema.validate(data)
