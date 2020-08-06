@@ -28,7 +28,6 @@ const uploadBookAndImageCover = async (files, path) => {
     })
 
     const { namePngFile, pages } = await saveCoverFromPdfToPng(pathPDFtoSave)
-   
 
     return {
         bookTitle: bookFile.name,
@@ -66,8 +65,6 @@ router.post('/add', async (req, res) => {
         req.body['bookPath'] = bookPath.substring(2)
         req.body['coverPath'] = `${bseDirWioutRootDot}/${namePngFile}`
         req.body['allPages'] = pages
-
-        console.log('BODY:', req.body)
 
         //validation
         const { error } = bookValidation(req.body)
@@ -179,8 +176,6 @@ router.post('/addCategory', async (req, res) => {
 })
 
 router.post('/delete-category', async (req, res) => {
-    console.log('To delete category:', req.body)
-
     try {
         const deletedCategory = await CategoryBooks.findByIdAndDelete({
             _id: req.body.id,

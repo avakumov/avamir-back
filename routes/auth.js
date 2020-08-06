@@ -12,9 +12,6 @@ const {
     loginValidation,
 } = require('../middleware/validation')
 
-
-
-
 router.post('/register', async (req, res) => {
     try {
         const { error } = registerValidation(req.body)
@@ -60,7 +57,8 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email: req.body.email })
 
         // throw error when email is wrong
-        if (!user) return res.status(400).json({ error: 'Email or password is wrong' })
+        if (!user)
+            return res.status(400).json({ error: 'Email or password is wrong' })
 
         // check for password correctness
         const validPassword = await bcrypt.compare(
@@ -68,7 +66,7 @@ router.post('/login', async (req, res) => {
             user.password
         )
         if (!validPassword)
-            return res.status(400).json({ error: 'Email or password is wrong'})
+            return res.status(400).json({ error: 'Email or password is wrong' })
 
         // create token
         const token = jwt.sign(

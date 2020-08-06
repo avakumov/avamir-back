@@ -41,7 +41,6 @@ router.post('/isemailexist', async (req, res) => {
 
 router.post('/validate-register', async (req, res) => {
     try {
-        
         const { error } = registerValidation(req.body)
 
         if (error)
@@ -50,11 +49,9 @@ router.post('/validate-register', async (req, res) => {
         const isEmailExist = await User.findOne({ email: req.body.email })
 
         if (isEmailExist)
-            return res
-                .status(422)
-                .json({
-                    error: 'Пользователь с таким email уже зарегистрирован',
-                })
+            return res.status(422).json({
+                error: 'Пользователь с таким email уже зарегистрирован',
+            })
         // if (req.body.password !== req.body.passwordRepeat) {
         //     return res.status(422).json({error: "Пароли не совпадают"})
         // }
@@ -67,7 +64,6 @@ router.post('/validate-register', async (req, res) => {
 
 router.post('/validate-login', async (req, res) => {
     try {
-        
         const { error } = loginValidation(req.body)
 
         if (error)

@@ -23,6 +23,7 @@ mongoose.connect(
 const authRoutes = require('./routes/auth')
 const tasksRoutes = require('./routes/tasks')
 const booksRoutes = require('./routes/books')
+const postsRoutes = require('./routes/posts')
 const utilsRoutes = require('./routes/utils')
 const verifyToken = require('./middleware/validate-token')
 
@@ -35,6 +36,7 @@ app.use(cors())
 app.use('/auth', authRoutes)
 app.use('/tasks', verifyToken, tasksRoutes)
 app.use('/books', verifyToken, booksRoutes)
+app.use('/posts', verifyToken, postsRoutes)
 app.use('/utils', utilsRoutes)
 
 app.listen(4000, () => console.log('server is running...'))

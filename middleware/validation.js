@@ -19,7 +19,6 @@ const registerValidation = (data) => {
         }),
         passwordRepeat: Joi.ref('password'),
     }).with('password', 'passwordRepeat')
-    console.log('SCHEMA: ', schema)
     return schema.validate(data)
 }
 
@@ -60,6 +59,24 @@ const bookValidation = (data) => {
     return schema.validate(data)
 }
 
+const postValidation = (data) => {
+    const schema = Joi.object({
+        _id: Joi.string(),
+        content: Joi.string().min(6).required(),
+        user: Joi.string(),
+        dateCreated: Joi.date(),
+        tags: Joi.array().items(
+            Joi.object({
+                _id: Joi.string(),
+                title: Joi.string().max(30).required(),
+                color: Joi.string().max(30),
+            })
+        ),
+    })
+
+    return schema.validate(data)
+}
+
 const categoryBooksValidation = (data) => {
     const schema = Joi.object({
         title: Joi.string().min(3).max(255).required(),
@@ -74,4 +91,5 @@ module.exports = {
     taskValidation,
     bookValidation,
     categoryBooksValidation,
+    postValidation,
 }
